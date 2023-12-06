@@ -17,13 +17,36 @@ const slides = [
 	}
 ]
 
+/**
+ * Création dynamique des dots
+ */
+const dots = document.querySelector(".dots")
+
+function createBullet() {
+	for (let i=0; i < slides.length; i++ ) {
+		span = document.createElement("span")
+		span.classList.add("dot")
+		dots.appendChild(span)
+		if (i == 0) {
+			span.classList.add('dot_selected')
+		}
+	}
+}
+
+createBullet()
+
+/**
+ * Déclaration des variables
+ */
+
 let slideIndex = 0
 
 const imgSlide = document.querySelector(".banner-img")
 const btnNext = document.querySelector(".arrow_right img")
 const btnPrev = document.querySelector(".arrow_left")
-const dots = document.querySelectorAll(".dot")
+const alldots = document.querySelectorAll(".dot")
 
+// Ecouteur d'évenement au clic sur fleche droite
 btnNext.addEventListener("click", function() {
 	slideIndex++
 	if(slideIndex >= slides.length) {
@@ -33,6 +56,7 @@ btnNext.addEventListener("click", function() {
 	updateDot(slideIndex)
 })
 
+// Ecouteur d'évenement au clic sur fleche gauche
 btnPrev.addEventListener("click", function() {
 	slideIndex--
 	if(slideIndex < 0) {
@@ -42,14 +66,16 @@ btnPrev.addEventListener("click", function() {
 	updateDot(slideIndex)
 })
 
+// Affichage de l'image et tagline correspondant à l'index 
 function showSlide(index) {
 	imgSlide.src = "./assets/images/slideshow/" + slides[index].image
 	const tagLine = slides[index].tagLine;
     document.querySelector('p').innerHTML = tagLine;
 }
 
+// Ajouter la class active sur le dot en fonction de la position de l'index dans le tableau
 function updateDot(indexDot) {
-	dots.forEach((dot, slideIndex) => { 
+	alldots.forEach((dot, slideIndex) => { 
 		if(slideIndex === indexDot) {
 			dot.classList.add('dot_selected')
 		} else {
@@ -58,8 +84,9 @@ function updateDot(indexDot) {
 	}
 )}
 
-function dotOnClick(index) {
-	dots.forEach((dot, slideIndex) => {
+// Au clic sur dot on change l'image et tagline ainsi que la position active du dot
+function dotOnClick() {
+	alldots.forEach((dot, slideIndex) => {
 		dot.addEventListener("click", function(){
 			showSlide(slideIndex)
 			updateDot(slideIndex)
